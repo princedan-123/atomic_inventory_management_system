@@ -17,3 +17,6 @@ class User(AbstractUser):
     profile_image = models.ImageField(upload_to='user/', null=True)
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['first_name', 'last_name', 'username']
+
+    def __str__(self):
+        return f'{self. first_name} {self.last_name}'
