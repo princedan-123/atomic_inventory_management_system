@@ -9,7 +9,8 @@ from .models import (
 from .serializers import (
     MerchantSerializer, SkuSerializer,
     ProductCategorySerializer, ProductSerializer,
-    OrderSerializer, DeliverySerializer
+    OrderSerializer, DeliverySerializer,
+    MissingProductSerializer
     )
 from rest_framework import viewsets
 from users.permissions import IsStockManager, AdminUser, IsAgent
@@ -157,11 +158,12 @@ class AgentDelivery(APIView):
                     }, status=403)
                 if delivery.status == 'pending':
                     delivery.status = new_status
+                    delivery.save()
                     #  file a missing product record upon failed delivery
                     MissingProduct.objects.create(
                         product = delivery.order.product,
                         delivery = delivery,
-                        quantity = order.quantity,
+                        quantity = delivery.order.quantity,
                         reported_by = None,
                         assigned_to = delivery.order.assigned_to,
                         reason = 'delivery failed, this agent is yet to return this product'
@@ -173,3 +175,36 @@ class AgentDelivery(APIView):
         return Response({
             'error': 'no delivery id or status is invalid'
         }, status=400)
+
+class ListMissingProducts(APIView):
+    """
+    A view that lists missing products.
+    It uses token for authentication.
+    Only admins and stock managers can access this view.
+    """
+    permission_classes = [AdminUser | IsStockManager]
+    def get(self, request, pk=None):
+        missing_products = MissingProduct.objects.all()
+        serialized = MissingProductSerializer(missing_products, many=True)
+        data  = serialized.data
+        return Response({
+            'missing': data
+            }, status=200)
+
+class ListMissing_per_agent(APIView):
+    """
+    Lists Missing products assigned to an agent.
+    Token is needed for authentication.
+    agents id is need to filter the agents record.
+    """
+    def get(self, request, pk=None):
+        if pk is None:
+            return Response({
+                'error': 'Missing agents id'
+                }, status=400)
+        missing_products_per_agent = MissingProduct.objects.filter(assigned_to=pk)
+        serialized = MissingProductSerializer(missing_products_per_agent, many=True)
+        data = serialized.data
+        return Response({
+            'missing_per_agent': data
+            },status=200)

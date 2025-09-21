@@ -22,5 +22,7 @@ urlpatterns = [
     path('', include(order_router.urls)),
     path('list/deliveries/all/', views.ListAllDeliveries.as_view()),
     path('list/deliveries/<int:pk>/', views.AgentDelivery.as_view()),
-    path('make/delivery/<int:pk>/', views.AgentDelivery.as_view())
+    path('make/delivery/<int:pk>/', views.AgentDelivery.as_view()),
+    path('list/missing_per_agent/<int:pk>/', views.ListMissing_per_agent.as_view()),
+    path('list/missing_products/all/', views.ListMissingProducts.as_view())
 ]
