@@ -10,6 +10,7 @@ from .models import User
 from .serializers import UserSerializer
 from rest_framework.permissions import IsAuthenticated
 from .permissions import AdminUser
+from .pagination import CustomPagePagination
 
 class Login(APIView):
     """A class based view that implements login."""
@@ -56,3 +57,4 @@ class UserCrud(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated, AdminUser]
     queryset = User.objects.all()
     serializer_class = UserSerializer
+    pagination_class = CustomPagePagination
