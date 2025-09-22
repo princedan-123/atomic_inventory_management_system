@@ -4,13 +4,13 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from .models import (
     Merchant, Sku, ProductCategory, Product, Order,
-    Delivery, MissingProduct
+    Delivery, MissingProduct, BtoB
     )
 from .serializers import (
     MerchantSerializer, SkuSerializer,
     ProductCategorySerializer, ProductSerializer,
     OrderSerializer, DeliverySerializer,
-    MissingProductSerializer
+    MissingProductSerializer, BtoBSerializer
     )
 from rest_framework import viewsets
 from users.permissions import IsStockManager, AdminUser, IsAgent
@@ -208,3 +208,72 @@ class ListMissing_per_agent(APIView):
         return Response({
             'missing_per_agent': data
             },status=200)
+
+class BtoBView(APIView):
+    """
+    A class view that handles btob initiation,
+    fetching btob of the logged in user.
+    btob means back to business, agents use it to return product.
+    This view requires token for authentication.
+    """
+    permission_classes = [IsAgent]
+    def post(self, request):
+        """Initiates a btob request."""
+        delivery_id = request.data.get('delivery_id')
+        user = request.user
+        try:
+            delivery = Delivery.objects.get(pk=delivery_id)
+        except Delivery.DoesNotExist:
+            return Response({'error': 'Delivery not found'}, status=404)
+        if delivery.status != 'failed':
+            return Response(
+                {'error': 'Only failed delivery can be returned'},
+                status=400
+                )
+        if user != delivery.order.assigned_to:
+            return Response(
+                {'error': 'You were not assigned to this delivery'},
+                status=400
+                )
+        btob = BtoB.objects.create(delivery=delivery, initiated_by=user)
+        serialized = BtoBSerializer(btob)
+        return Response({'successful': serialized.data}, status=200)
+    
+    def get(self, request):
+        """retrieves btob initiated by a specific agent."""
+        btob = BtoB.objects.filter(initiated_by=request.user)
+        if not btob.exists():
+            return Response({
+                'error': 'No btob record for this agent'
+            }, status=404)
+        serialized = BtoBSerializer(btob, many=True)
+        return Response({'btob': serialized.data}, status=200)
+    
+
+class BtoBViewAdmin(APIView):
+    """
+    A btob view that retrieves all btob.
+    It also retrieves the btob of a specific user
+    This view is restricted to Admin or Stock Managers.
+    """
+    permission_classes = [Admin | IsStockManager]
+    def get(self, request, pk):
+        """Retrieves all btob."""
+        if pk is not None:
+            btob = BtoB.filter(initiated_by__id=pk)
+            if not btob.exists():
+                return Response(
+                    {'error': 'This agent has no btob record'},
+                    status=404
+                    )
+            serialized = BtoBSerializer(btob, many=True)
+            return Response({'btob': serialized.data}, status=200)
+        #  fetch all if pk is not provided
+        btob = BtoB.objects.all()
+        if not btob.exists():
+            return Response({'error': 'No btob record found'}, status=404)
+        serialized = BtoBSerializer(btob, many=True)
+        return Response({'btob': serialized.data}, status=200)
+    
+    def put(self):
+        # use self.get to retrieve the btob record before updating it

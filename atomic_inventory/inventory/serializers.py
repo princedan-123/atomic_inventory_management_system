@@ -122,6 +122,7 @@ class BtoBSerializer(serializers.ModelSerializer):
     delivery = serializers.PrimaryKeyRelatedField(
         queryset=Delivery.objects.all(), write_only=True
     )
+    initiated_by = serializers.StringRelatedField(read_only=True)
 
     class Meta:
         model = BtoB
