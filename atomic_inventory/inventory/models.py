@@ -112,6 +112,10 @@ class BtoB(models.Model):
         max_length=20, choices=b_to_b_status, default='initiated'
     )
     created_at = models.DateTimeField(auto_now_add=True)
+    initiated_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE,
+        related_name='BtoB', null=False, blank=False
+        )
 
 
 class MissingProduct(models.Model):
