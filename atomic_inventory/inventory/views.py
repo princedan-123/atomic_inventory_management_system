@@ -128,7 +128,7 @@ class AgentDelivery(APIView):
             return Response({
                 'error': 'missing json payload'
             }, status=400)
-        delivery_id = data.get('id')
+        delivery_id = data.get('delivery_id')
         new_status = data.get('status')
         user = request.user
         if delivery_id and new_status == 'delivered':
@@ -168,6 +168,9 @@ class AgentDelivery(APIView):
                         assigned_to = delivery.order.assigned_to,
                         reason = 'delivery failed, this agent is yet to return this product'
                     )
+                    return Response(
+                        {'error': 'Delivery failed!. Product yet to be returned'}
+                        )
             except Delivery.DoesNotExist:
                 return Response(
                     {'error': 'Delivery does not exist for this agent'}
@@ -256,8 +259,8 @@ class BtoBViewAdmin(APIView):
     It also retrieves the btob of a specific user
     This view is restricted to Admin or Stock Managers.
     """
-    permission_classes = [Admin | IsStockManager]
-    def get(self, request, pk):
+    permission_classes = [AdminUser | IsStockManager]
+    def get(self, request, pk=None):
         """Retrieves all btob."""
         if pk is not None:
             btob = BtoB.filter(initiated_by__id=pk)
@@ -275,5 +278,28 @@ class BtoBViewAdmin(APIView):
         serialized = BtoBSerializer(btob, many=True)
         return Response({'btob': serialized.data}, status=200)
     
-    def put(self):
-        # use self.get to retrieve the btob record before updating it
+    def put(self, request, pk=None):
+        """
+        Confirms or rejects btob request initiated by an agent.
+        Requires tokens for authentication.
+        It is restricted to admin or stock managers.
+        """
+        new_status = request.data.get('status')
+        if new_status not in ['rejected', 'confirmed']:
+            return Response({'error': 'invalid status'}, status=400)
+        if pk is None:
+            return Response({'error': 'Missing btob id'}, status=400)
+        try:
+            btob = BtoB.objects.get(id=pk)
+            if btob.status == 'initiated':
+                btob.status = new_status
+                btob.save()
+                if new_status == 'confirmed':
+                    product = btob.delivery.order.product
+                    order_quantity = btob.delivery.order.quantity
+                    product.quantity += order_quantity
+                    product.save()
+                return Response({'updated': btob.status}, status=200)
+            return Response({'error': 'btob was not initiated'}, status=400)
+        except BtoB.DoesNotExist:
+            return Response({'error': 'btob record not found'}, status=404)

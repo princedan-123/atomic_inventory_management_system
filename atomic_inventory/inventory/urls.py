@@ -27,5 +27,6 @@ urlpatterns = [
     path('list/missing_products/all/', views.ListMissingProducts.as_view()),
     path('list/all_btob/', views.BtoBViewAdmin.as_view()),
     path('list/agent_btob/', views.BtoBView.as_view()),
-    path('make/btob/', views.BtoBView.as_view())
+    path('make/btob/', views.BtoBView.as_view()),
+    path('confirm/btob/<int:pk>/', views.BtoBViewAdmin.as_view())
 ]
