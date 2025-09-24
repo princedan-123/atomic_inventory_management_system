@@ -39,6 +39,7 @@ The detailed product requirement document can be found here:
 
 👉 [Data flow](https://docs.google.com/document/d/1dbxLJtnKJpET53WUXHQqD2kmtAc-Y3sHl1XjEcT3Ds4/edit?usp=sharing)
 ---
+👉 [API Documentation](./Atomic_inventory_system.postman_collection_project)
 
 ## ⚙️ Installation
 Steps to install and set up locally:
