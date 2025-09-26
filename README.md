@@ -40,3 +40,4 @@ The detailed product requirement document can be found here:
 👉 [Data flow](https://docs.google.com/document/d/1dbxLJtnKJpET53WUXHQqD2kmtAc-Y3sHl1XjEcT3Ds4/edit?usp=sharing)
 ---
 👉 [API Documentation rst version](./API_Documentation.rst)
+👉 [ER-Diagram](https://drive.google.com/file/d/18w4DUadlnLVbVI8bqFyBegSKi2W5KLQx/view?usp=sharing)
