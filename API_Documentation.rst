@@ -51,7 +51,7 @@ Users
 ^^^^^
 **Register User**
 
-- **URL**: ``POST /api/users/``
+- **URL**: ``POST localhost:8000/users/``
 - **Description**: Creates a new user (agent, stock manager, or admin).
 - **Request Example**::
 
@@ -73,7 +73,7 @@ Users
 
 **List Users**
 
-- **URL**: ``GET /api/users/``
+- **URL**: ``GET localhost:8000/users/``
 - **Description**: Retrieves all users.
 - **Response Example**::
 
@@ -96,7 +96,7 @@ Products
 ^^^^^^^^
 **Add Product**
 
-- **URL**: ``POST /api/products/``
+- **URL**: ``POST localhost:8000/products/``
 - **Description**: Adds a new product.
 - **Request Example**::
 
@@ -117,7 +117,7 @@ Products
 
 **Get All Products**
 
-- **URL**: ``GET /api/products/``
+- **URL**: ``GET localhost:8000/products/``
 - **Response Example**::
 
     [
@@ -139,7 +139,7 @@ Deliveries
 ^^^^^^^^^^
 **Initiate Delivery**
 
-- **URL**: ``POST /api/deliveries/``
+- **URL**: ``POST localhost:8000/deliveries/``
 - **Description**: Create a delivery record.
 - **Request Example**::
 
@@ -159,7 +159,7 @@ Deliveries
 
 **Update Delivery Status**
 
-- **URL**: ``PATCH /api/deliveries/{id}/``
+- **URL**: ``PATCH localhost:8000/deliveries/{id}/``
 - **Description**: Update the status of a delivery.
 - **Request Example**::
 
@@ -180,7 +180,7 @@ Reports
 ^^^^^^^
 **Generate Stock Report**
 
-- **URL**: ``GET /api/reports/stock/``
+- **URL**: ``GET localhost:8000/reports/stock/``
 - **Description**: Provides a summary of stock levels.
 - **Response Example**::
 
@@ -193,7 +193,7 @@ Reports
 
 **Generate Delivery Report**
 
-- **URL**: ``GET /api/reports/deliveries/``
+- **URL**: ``GET localhost:8000/reports/deliveries/``
 - **Description**: Provides delivery performance metrics.
 - **Response Example**::
 
