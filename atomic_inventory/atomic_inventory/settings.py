@@ -83,14 +83,9 @@ WSGI_APPLICATION = 'atomic_inventory.wsgi.application'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': os.getenv('DB_NAME'),
-        'USER': os.getenv('DB_USERNAME'),      
-        'PASSWORD': os.getenv('DB_PASS'),  
-        'HOST': os.getenv('DB_HOST'),         
-        'PORT': os.getenv('DB_PORT'),            
-    }
+    'default': dj_database_url.config(
+        default=os.environ.get('DATABASE_URL')
+    )
 }
 
 
