@@ -51,7 +51,7 @@ Users
 ^^^^^
 **Register User**
 
-- **URL**: ``POST localhost:8000/users/``
+- **URL**: ``POST https://atomic-inventory-management-system.onrender.com/users/``
 - **Description**: Creates a new user (agent, stock manager, or admin).
 - **Request Example**::
 
@@ -73,7 +73,7 @@ Users
 
 **List Users**
 
-- **URL**: ``GET localhost:8000/users/``
+- **URL**: ``GET https://atomic-inventory-management-system.onrender.com/users/``
 - **Description**: Retrieves all users.
 - **Response Example**::
 
@@ -96,7 +96,7 @@ Products
 ^^^^^^^^
 **Add Product**
 
-- **URL**: ``POST localhost:8000/products/``
+- **URL**: ``POST https://atomic-inventory-management-system.onrender.com/products/``
 - **Description**: Adds a new product.
 - **Request Example**::
 
@@ -117,7 +117,7 @@ Products
 
 **Get All Products**
 
-- **URL**: ``GET localhost:8000/products/``
+- **URL**: ``GET https://atomic-inventory-management-system.onrender.com/products/``
 - **Response Example**::
 
     [
@@ -139,7 +139,7 @@ Deliveries
 ^^^^^^^^^^
 **Initiate Delivery**
 
-- **URL**: ``POST localhost:8000/deliveries/``
+- **URL**: ``POST https://atomic-inventory-management-system.onrender.com/deliveries/``
 - **Description**: Create a delivery record.
 - **Request Example**::
 
@@ -159,7 +159,7 @@ Deliveries
 
 **Update Delivery Status**
 
-- **URL**: ``PATCH localhost:8000/deliveries/{id}/``
+- **URL**: ``PATCH https://atomic-inventory-management-system.onrender.com/deliveries/{id}/``
 - **Description**: Update the status of a delivery.
 - **Request Example**::
 
@@ -180,7 +180,7 @@ Reports
 ^^^^^^^
 **Generate Stock Report**
 
-- **URL**: ``GET localhost:8000/reports/stock/``
+- **URL**: ``GET https://atomic-inventory-management-system.onrender.com/reports/stock/``
 - **Description**: Provides a summary of stock levels.
 - **Response Example**::
 
@@ -193,7 +193,7 @@ Reports
 
 **Generate Delivery Report**
 
-- **URL**: ``GET localhost:8000/reports/deliveries/``
+- **URL**: ``GET https://atomic-inventory-management-system.onrender.com/reports/deliveries/``
 - **Description**: Provides delivery performance metrics.
 - **Response Example**::
 
