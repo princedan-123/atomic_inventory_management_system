@@ -31,7 +31,7 @@ SECRET_KEY = 'django-insecure-i@)vf(nsl3i-2h3rrv8@^aae4^c1j)ln#yg&b&*mq35j((!ku0
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [ "atomic-inventory-management-system.onrender.com"]
 
 
 # Application definition
