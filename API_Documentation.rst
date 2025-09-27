@@ -16,10 +16,10 @@ to help developers integrate seamlessly.
 
 Authentication
 --------------
-- **Type**: Token-based authentication (JWT or session-based depending on configuration).
+- **Type**: Token-based authentication .
 - **Header format**::
 
-    Authorization: Bearer <your-token>
+    Authorization: Token <your-token>
 
 Models
 ------
