@@ -5,7 +5,7 @@ class AdminUser(BasePermission):
     """Checks if a user has the role of an Admin."""
     def has_permission(self, request, view):
         user = request.user
-        return user.role == 'admin'
+        return bool(user and user.is_superuser)
 
 class IsStockManager(BasePermission):
     """Checks if a user is a stock manager."""
