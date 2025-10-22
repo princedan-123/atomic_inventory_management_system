@@ -1,0 +1,36 @@
+# Python bytecode
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual environments
+venv/
+env/
+.env/
+
+# Django stuff
+*.sqlite3
+*.log
+staticfiles/
+media/
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Git files
+.git/
+.gitignore
+
+# Dockerfiles or local build files
+Dockerfile*
+docker-compose*.yml
+
+# Other unnecessary files
+*.egg-info/
+*.egg
+*.dist-info/
+*.pytest_cache/
